@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.db.base import Base
 from app.db.database import engine
 from app.api.polygons import router as polygon_router
+from app.api.auth import router as auth_router
 
 import app.models
 
@@ -26,3 +27,5 @@ def health():
     return {
         "database": "connected"
     }
+    
+app.include_router(auth_router)

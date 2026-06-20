@@ -1,15 +1,13 @@
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
+
+from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped, mapped_column
+
 from geoalchemy2 import Geometry
 
 from app.db.base import Base
 
-
-user_id: Mapped[int] = mapped_column(
-    ForeignKey("users.id"),
-    nullable=False
-)
 
 class Polygon(Base):
 
@@ -27,6 +25,11 @@ class Polygon(Base):
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id"),
         nullable=False
+    )
+
+    owner = relationship(
+        "User",
+        back_populates="polygons"
     )
 
     geom = mapped_column(

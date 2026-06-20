@@ -10,6 +10,10 @@ from app.db.dependencies import get_db
 from app.models.polygon import Polygon
 from app.schemas.polygon import PolygonCreate
 
+from app.auth.dependencies import (
+    get_current_user
+)
+
 
 router = APIRouter(
     prefix="/polygons",
@@ -20,7 +24,10 @@ router = APIRouter(
 @router.post("/")
 def create_polygon(
     polygon: PolygonCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(
+        get_current_user
+    )
 ):
 
     geojson = str(polygon.geometry).replace("'", '"')
@@ -33,6 +40,7 @@ def create_polygon(
 
     new_polygon = Polygon(
         name=polygon.name,
+        user_id=user_id,
         geom=geom
     )
 
@@ -66,3 +74,25 @@ def list_polygons(
         })
 
     return output
+    
+@router.get("/mine")
+def my_polygons(
+    db: Session = Depends(get_db),
+    user_id: int = Depends(
+        get_current_user
+    )
+):
+
+    polygons = db.query(
+        Polygon
+    ).filter(
+        Polygon.user_id == user_id
+    ).all()
+
+    return [
+        {
+            "id": p.id,
+            "name": p.name
+        }
+        for p in polygons
+    ]

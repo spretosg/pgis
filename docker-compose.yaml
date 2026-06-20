@@ -1,0 +1,25 @@
+services:
+
+  postgres:
+    image: postgis/postgis:16-3.4
+
+    container_name: pgis-postgis
+
+    environment:
+      POSTGRES_DB: spatialdb
+      POSTGRES_USER: spatialuser
+      POSTGRES_PASSWORD: spatialpassword
+
+    ports:
+      - "5433:5432"
+
+  backend:
+    build: ./backend
+
+    container_name: pgis-api
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres

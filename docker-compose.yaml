@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgis/postgis:16-3.4
 
-    container_name: pgis-postgis
+    container_name: pgis-postgis-v2
 
     environment:
       POSTGRES_DB: spatialdb
@@ -16,7 +16,7 @@ services:
   backend:
     build: ./backend
 
-    container_name: pgis-api
+    container_name: pgis-api-v2
 
     ports:
       - "8000:8000"

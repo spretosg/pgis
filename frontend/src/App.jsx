@@ -1,7 +1,17 @@
+import { useState } from "react";
+import Login from "./components/Login";
 import MapView from "./components/MapView";
 
-function App() {
-  return <MapView />;
-}
+export default function App() {
+  const [loggedIn, setLoggedIn] = useState(
+    !!localStorage.getItem("token")
+  );
 
-export default App;
+  return loggedIn ? (
+    <MapView />
+  ) : (
+    <Login
+      onLogin={() => setLoggedIn(true)}
+    />
+  );
+}

@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = (
-    "postgresql://spatialuser:spatialpassword@postgres:5432/spatialdb"
+    "postgresql://spatialuser:spatialpassword@pgis-postgis-v2:5432/spatialdb"
 )
 
 engine = create_engine(DATABASE_URL)
